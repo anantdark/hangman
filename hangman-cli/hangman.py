@@ -50,9 +50,9 @@ def hangman(word):
             break
 
     if lives == 0:
-        print(f'You lost all your lives :( The word is {word}')
+        print(f'You lost all your lives\U00002764 \U00002639 The word is {word}')
     else:
-        print(f'You win! The word is {word}')
+        print(f'You win\U0001F389! The word is {word}')
 
 
 if __name__ == "__main__":
