@@ -51,7 +51,6 @@ hangman_status = 0
 
 # word="FOOD"
 word = random_word().upper()
-print(word)
 guessed = []
 
 # SETUP game Loop
