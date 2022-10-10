@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+from wordsStore import  words
 
 # Setup Display
 pygame.init()
@@ -42,8 +43,6 @@ for i in range(7):
 
 # Game Variables
 hangman_status = 0
-words=["Developer","Ambush","Reddit","Food","PYGAME","PYthon"]
-words=[word.upper() for word in words]
 
 # word="FOOD"
 word = random.choice(words)
