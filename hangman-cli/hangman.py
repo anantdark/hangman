@@ -1,16 +1,27 @@
-
 import sys
+from os import system
+from time import sleep
 
 sys.path.append("..")
 
+from rich import print
 from words.wordgen import *  # NOQA
 
 
+def welcome_screen():
+    for word in ["[bold green]Welcome [/bold green]", "[bold green]to [/bold green]", "[bold green]anantdark's [/bold green]", "[bold green]Hangman [/bold green]", "[bold green]game.[/bold green]"]:
+        print(word, end=" ")
+        sleep(0.5)
+    print()
+
+
 def hangman(word):
+    welcome_screen()
+    system("clear")
     lives = 6
     board = "*"*len(word)
     while lives:
-        print(f'You have {lives} lives. Guess a word. Current board\n{board}')
+        print(f'You have {lives} lives. Guess a word. \nCurrent board\n{board}')
         guess = input()
         # If guess is more than 1 character, prompt to try again
         while len(guess) != 1:
@@ -27,6 +38,7 @@ def hangman(word):
         if not character_exist:
             lives -= 1
         print(board)
+        system('clear')
         # If any character is missing, continue (go back to top of while loop
         # and skipping win prompt
         completed_word = True
