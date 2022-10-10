@@ -41,5 +41,5 @@ def hangman(word):
 
 
 if __name__=="__main__":
-    current_word = myword()
+    current_word = random_word()
     hangman(current_word)
