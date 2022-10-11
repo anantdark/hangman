@@ -92,9 +92,18 @@ def draw():
 
 def display_message(message):  # DRY concept lol
     screen.fill(WHITE)
-    text = WORD_FONT.render(message, 1, BLACK)
-    screen.blit(text, (int(WIDTH/2-text.get_width()/2),
-                int(HEIGHT/2-text.get_height()/2)))
+    #multiline message
+    if message.__contains__("\n"):
+        lines = message.split('\n')
+        for i, msg in enumerate(lines):
+            txt_surface = WORD_FONT.render(msg, 1, BLACK)
+            screen.blit(txt_surface, (int(WIDTH/2-txt_surface.get_width()/2),
+                int(HEIGHT/2-txt_surface.get_height()/((i+1)/2))))
+    #single line message
+    if not message.__contains__("\n"):
+        text = WORD_FONT.render(message, 1, BLACK)
+        screen.blit(text, (int(WIDTH/2-text.get_width()/2),
+                    int(HEIGHT/2-text.get_height()/2)))
     pygame.display.update()
     pygame.time.delay(2000)
 
@@ -128,10 +137,10 @@ while running:
 
     draw()
     if won:
-        display_message("YOU WON!!!!")
+        display_message("YOU WON!!!!\nThe word is: " + word)
         break
     if hangman_status == 6:
-        display_message("You Lost :(")
+        display_message("You Lost :(\nThe word is: " + word)
         break
 
 pygame.quit()
