@@ -8,6 +8,11 @@ sys.path.append("..")
 
 from words.wordgen import random_word  # NOQA
 
+import nltk
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+from nltk.corpus import wordnet # for definition and synonyms
+
 # Setup Display
 pygame.init()
 WIDTH, HEIGHT = 800, 500
@@ -58,7 +63,33 @@ FPS = 60
 clock = pygame.time.Clock()
 running = True
 
-
+def definition(word):
+    syns = wordnet.synsets(word.lower())
+    defini = syns[0].definition()
+    defin = defini.split()        
+    split_index = len(defin)-1
+    definition = "no definition found :("
+    if (len(defin) < 6):
+        definition = defini
+    if (len(defin) < 14 and len(defin) > 6):
+        def1, def2 = "", ""
+        for i in range(0, split_index//2):
+            def1 = def1 + " " + defin[i]
+        for j in range(split_index//2, split_index):
+            def2 = def2 + " " + defin[j]
+        definition = def1 + "\n" + def2
+    if (len(defin) > 14):
+        def1, def2, def3 = "", "", ""
+        for i in range(0, split_index//3):
+            def1 = def1 + " " + defin[i]
+        for j in range(split_index//3, (split_index//3)*2):
+            def2 = def2 + " " + defin[j]
+        for k in range((split_index//3)*2, split_index):
+            def3 = def3 + " " + defin[k]
+        definition = def1 + "\n" + def2 + "\n" + def3
+    
+    return definition
+    
 def draw():
     screen.fill(WHITE)
     # Draw title
@@ -96,16 +127,17 @@ def display_message(message):  # DRY concept lol
     if message.__contains__("\n"):
         lines = message.split('\n')
         for i, msg in enumerate(lines):
-            txt_surface = WORD_FONT.render(msg, 1, BLACK)
+            txt_surface = LETTER_FONT.render(msg, 1, BLACK)
+            if (i == 0): txt_surface = WORD_FONT.render(msg, 1, BLACK)
             screen.blit(txt_surface, (int(WIDTH/2-txt_surface.get_width()/2),
-                int(HEIGHT/2-txt_surface.get_height()/((i+1)/2))))
+                int((HEIGHT/6)*(i+1/2))))
     #single line message
     if not message.__contains__("\n"):
         text = WORD_FONT.render(message, 1, BLACK)
         screen.blit(text, (int(WIDTH/2-text.get_width()/2),
                     int(HEIGHT/2-text.get_height()/2)))
     pygame.display.update()
-    pygame.time.delay(2000)
+    pygame.time.delay(6000)
 
 
 while running:
@@ -140,7 +172,10 @@ while running:
         display_message("YOU WON!!!!\nThe word is: " + word)
         break
     if hangman_status == 6:
-        display_message("You Lost :(\nThe word is: " + word)
+        
+        definition = definition(word)
+        
+        display_message("You Lost :(\n" + word.lower().capitalize() + ": " + definition)
         break
 
 pygame.quit()
