@@ -1,7 +1,19 @@
 # hangman
+
+![d](https://user-images.githubusercontent.com/66427020/195121033-0fb356aa-d3d4-430a-b3cb-cd874142e82d.jpg)
+
 A simple game with easy rules, written purely in python.
 
 GUI and CLI versions available.
+
+## About the Game ##
+
+**HangMan is an interactive real world game. The game chooses an entirely random word,and the user tries to guess it by suggesting letters untill the hangman figure is completed.**
+
+![dg](https://user-images.githubusercontent.com/66427020/195119906-df3f12af-1606-41c1-8f63-67ac5afaff51.png)
+
+![dd](https://user-images.githubusercontent.com/66427020/195120456-ae346d8d-8dd7-42cd-b353-fdf19739d7b7.png)
+
 
 ## Modules used-
 - `pygame`
@@ -21,10 +33,6 @@ New contributers can implement packaging the game into an executable.
 ### For Windows
 _Dude use Linux_ :wink:
 - Just replace python3 with python in the above steps.
-
-## About the Game ##
-
-**HangMan is an interactive real world game. The game chooses an entirely random word,and the user tries to guess it by suggesting letters untill the hangman figure is completed. There are hints for help of the user and a total of three lives .**
 
 ___RULES___
 
