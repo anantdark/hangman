@@ -1,7 +1,12 @@
+import sys
+
 import pygame
 import math
 import random
-from wordsStore import  words
+
+sys.path.append("..")
+
+from words.wordgen import random_word  # NOQA
 
 # Setup Display
 pygame.init()
@@ -33,7 +38,7 @@ for i in range(26):
 
 LETTER_FONT = pygame.font.SysFont("comicsans", 40)
 WORD_FONT = pygame.font.SysFont("comicsans", 60)
-TITLE_FONT=pygame.font.SysFont("comicsans", 80)
+TITLE_FONT = pygame.font.SysFont("comicsans", 80)
 
 # Loading Images
 images = []
@@ -45,7 +50,7 @@ for i in range(7):
 hangman_status = 0
 
 # word="FOOD"
-word = random.choice(words)
+word = random_word().upper()
 guessed = []
 
 # SETUP game Loop
@@ -56,9 +61,9 @@ running = True
 
 def draw():
     screen.fill(WHITE)
-    #Draw title
-    text= TITLE_FONT.render("SIMPLE HANGMAN GAME",1,RED)
-    screen.blit(text,(WIDTH/2-text.get_width()/2,20))
+    # Draw title
+    text = TITLE_FONT.render("SIMPLE HANGMAN GAME", 1, RED)
+    screen.blit(text, (WIDTH/2-text.get_width()/2, 20))
 
     # draw word
     display_word = ""
@@ -71,7 +76,6 @@ def draw():
     text = WORD_FONT.render(display_word, 1, BLACK)
     screen.blit(text, (400, 200))
 
-
     # draw Buttons
     for letter in letters:
         x, y, ltr, visible = letter
@@ -79,17 +83,21 @@ def draw():
             pygame.draw.circle(screen, BLACK, (x, y), RADIUS, 3)
             text = LETTER_FONT.render(ltr, True, BLACK)
             # screen.blit(text,(x-10,y-14)) # this one works too
-            screen.blit(text, (x - int(text.get_width() / 2), y - int(text.get_height() / 2)))
+            screen.blit(text, (x - int(text.get_width() / 2),
+                        y - int(text.get_height() / 2)))
 
     screen.blit(images[hangman_status], (150, 100))
     pygame.display.update()
 
-def display_message(message): #DRY concept lol
+
+def display_message(message):  # DRY concept lol
     screen.fill(WHITE)
-    text= WORD_FONT.render(message,1,BLACK)
-    screen.blit(text,(int(WIDTH/2-text.get_width()/2),int(HEIGHT/2-text.get_height()/2)))
+    text = WORD_FONT.render(message, 1, BLACK)
+    screen.blit(text, (int(WIDTH/2-text.get_width()/2),
+                int(HEIGHT/2-text.get_height()/2)))
     pygame.display.update()
     pygame.time.delay(2000)
+
 
 while running:
     clock.tick(FPS)
@@ -104,7 +112,8 @@ while running:
             for letter in letters:
                 x, y, ltr, visible = letter
                 if visible:
-                    distance = math.sqrt((x - m_x) ** 2 + (y - m_y) ** 2)  # Distance formula
+                    # Distance formula
+                    distance = math.sqrt((x - m_x) ** 2 + (y - m_y) ** 2)
                     if distance < RADIUS:
                         letter[3] = False
                         guessed.append(ltr)
