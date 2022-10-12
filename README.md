@@ -24,6 +24,7 @@ ___RULES___
 ## Modules used-
 - `pygame`
 - `rich`
+- `nltk`
 
 Use `pip install -r requirements.txt` to install the modules automatically.
 
