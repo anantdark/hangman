@@ -1,2 +1,3 @@
 pygame==2.1.2
 rich==12.6.0
+nltk
