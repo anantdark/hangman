@@ -1,12 +1,19 @@
 import sys
+from sys import platform
 from os import system
 from time import sleep
 
 sys.path.append("..")
 
 from rich import print
+from rich.prompt import Prompt
 from words.wordgen import *  # NOQA
 
+
+if platform == "linux" or platform == "linux2":
+    clear = "clear"
+elif platform == "win32":
+    clear = "cls"
 
 def welcome_screen():
     for word in ["[bold green]Welcome [/bold green]", "[bold green]to [/bold green]", "[bold green]anantdark's [/bold green]", "[bold green]Hangman [/bold green]", "[bold green]game.[/bold green]"]:
@@ -15,9 +22,26 @@ def welcome_screen():
     print()
 
 
-def hangman(word):
+def play_again():
+    play_again_prompt = Prompt.ask("Would you like to play again?", default='n').lower()
+    return play_again_prompt
+
+
+def get_score(wins, games):
+    if games == 1:
+        print(f"You have won {wins} out of {games} game")
+    else:
+        print(f"You have won {wins} out of {games} games")
+
+def hangman(word, wins: int = 0, games: int = 0):
+    """
+    Parameters:
+    word (str): This variable holds the string to be guessed.
+    wins (int): This variable tracks the number of wins the player has had.
+    games (int): This variable tracks the number of games the player has played.
+    """
     welcome_screen()
-    system("clear")
+    system(clear)
     used_letters = []
     lives = 6
     board = "*"*len(word)
@@ -50,7 +74,7 @@ def hangman(word):
         if not character_exist:
             lives -= 1
         print(board)
-        system('clear')
+        system(clear)
         # If any character is missing, continue (go back to top of while loop
         # and skipping win prompt
         completed_word = True
@@ -65,8 +89,26 @@ def hangman(word):
         print(f'You lost all your lives\U00002764 \U00002639 The word is {word}')
     else:
         print(f'You win\U0001F389! The word is {word}')
+        wins += 1
+    
+    # Increment number of games played.
+    games += 1
+
+    # Get current score.
+    get_score(wins, games)
+    
+    # Get user response to play again
+    user_response = play_again()
+    if user_response == 'y':
+        return hangman(word = random_word(), wins=wins, games=games)
+    else:
+        exit()
+        
+
+def run():
+    hangman(random_word())
+
 
 
 if __name__ == "__main__":
-    current_word = random_word()
-    hangman(current_word)
+    run()
