@@ -7,6 +7,8 @@ sys.path.append("..")
 
 from rich import print
 from rich.prompt import Prompt
+from nltk.corpus import wordnet
+
 from words.wordgen import *  # NOQA
 
 
@@ -14,6 +16,7 @@ if platform == "linux" or platform == "linux2":
     clear = "clear"
 elif platform == "win32":
     clear = "cls"
+
 
 def welcome_screen():
     for word in ["[bold green]Welcome [/bold green]", "[bold green]to [/bold green]", "[bold green]anantdark's [/bold green]", "[bold green]Hangman [/bold green]", "[bold green]game.[/bold green]"]:
@@ -32,6 +35,25 @@ def get_score(wins, games):
         print(f"You have won {wins} out of {games} game")
     else:
         print(f"You have won {wins} out of {games} games")
+
+
+def definition(word):
+    syns = wordnet.synsets(word)
+    return syns[0].definition(), syns[0].examples()
+
+
+def print_definition(word):
+    try:
+        result = definition(word)
+        if result[0] :
+            print("DEFINITION: ", result[0], end="\n")
+        if result[1] != []:
+            print("EXAMPLES: ", result[1], end="\n")
+        else:
+            print("EXAMPLES: [bold red]NOT FOUND![/bold red]")
+    except:
+            print("ERROR: [bold red]AN ERROR OCCURRED![/bold red]")
+
 
 def hangman(word, wins: int = 0, games: int = 0):
     """
@@ -86,13 +108,16 @@ def hangman(word, wins: int = 0, games: int = 0):
             break
 
     if lives == 0:
-        print(f'You lost all your lives\U00002764 \U00002639 The word is {word}')
+        print(f'You lost all your lives\U00002764 \U00002639 The word is [bold red]{word}[/bold red]')
     else:
-        print(f'You win\U0001F389! The word is {word}')
+        print(f'You win\U0001F389! The word is [bold green]{word}[/bold green]')
         wins += 1
     
     # Increment number of games played.
     games += 1
+
+    # Print the words definition to screen.
+    print_definition(word)
 
     # Get current score.
     get_score(wins, games)
