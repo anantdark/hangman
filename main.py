@@ -3,14 +3,14 @@ from rich.prompt import Prompt
 
 
 def run_CLI():
-    from hangman_CLI.hangman import run
+    from hangman_cli.hangman import run
 
     run()
 
 
 
 def run_GUI():
-    from hangman_GUI import main
+    from hangman_gui import main
 
 
 def select_app(retry=0):
