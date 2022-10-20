@@ -1,4 +1,5 @@
 import sys
+import os
 
 import pygame
 import math
@@ -48,7 +49,8 @@ TITLE_FONT = pygame.font.SysFont("comicsans", 80)
 # Loading Images
 images = []
 for i in range(7):
-    image = pygame.image.load(f'hangman{i}.png')
+    # image = pygame.image.load(f'hangman{i}.png')
+    image = pygame.image.load(os.path.join(os.path.dirname(__file__), f'hangman{i}.png'))
     images.append(image)
 
 # Game Variables

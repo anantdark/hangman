@@ -132,8 +132,3 @@ def hangman(word, wins: int = 0, games: int = 0):
 
 def run():
     hangman(random_word())
-
-
-
-if __name__ == "__main__":
-    run()
